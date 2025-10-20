@@ -15,6 +15,7 @@ build/
 functions/
 workers/
 
+
 # Editor / OS
 .DS_Store
 Thumbs.db
@@ -26,3 +27,7 @@ Thumbs.db
 # Logs
 *.log
 logs/
+
+# Miniflare / local cache
+.mf/
+.cache/

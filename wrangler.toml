@@ -1,9 +1,34 @@
 name = "cf_ai_edge_nav"
 main = "src/index.ts"
-compatibility_date = "2024-10-01"
+compatibility_date = "2025-06-01"
 
+# Chat + voice UI (served from the edge alongside the API)
+[assets]
+directory = "./public"
+binding = "ASSETS"
+
+# Workers AI: Llama 3.3 (chat/summaries), bge-base (embeddings), Whisper (STT), MeloTTS (TTS)
 [ai]
 binding = "AI"
 
+# SQLite-backed Durable Object: documents, chunks, chat history, adaptive memory
+[[durable_objects.bindings]]
+name = "KNOWLEDGE"
+class_name = "KnowledgeStore"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["KnowledgeStore"]
+
+# Durable crawl -> summarize -> embed pipeline
+[[workflows]]
+name = "edge-nav-crawl"
+binding = "CRAWL_WORKFLOW"
+class_name = "CrawlWorkflow"
+
 [vars]
-# MODEL_NAME = "Llama-3.3-Instruct"
+CHAT_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
+MAX_CRAWL_PAGES = "10"
+
+[observability]
+enabled = true

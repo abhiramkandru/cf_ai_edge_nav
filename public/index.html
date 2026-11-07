@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Edge Navigator</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <span class="logo">◆</span>
+      <div>
+        <h1>Edge Navigator</h1>
+        <p class="sub">Llama 3.3 · Workflows · Durable Objects · Workers AI</p>
+      </div>
+    </div>
+    <nav>
+      <button class="tab active" data-tab="chat">Chat</button>
+      <button class="tab" data-tab="crawl">Crawl</button>
+      <button class="tab" data-tab="library">Library</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Chat -->
+    <section id="chat" class="panel active">
+      <div id="messages" class="messages">
+        <div class="empty">
+          <h2>Ask your knowledge base</h2>
+          <p>Crawl a website or add text in the Library, then ask questions. Rate answers 👍/👎 to teach the navigator what's useful.</p>
+        </div>
+      </div>
+      <form id="chat-form" class="composer">
+        <button type="button" id="mic" class="icon" title="Hold to talk" aria-label="Voice input">🎙</button>
+        <input id="chat-input" autocomplete="off" placeholder="Ask anything…" maxlength="4000" />
+        <label class="toggle" title="Read replies aloud"><input type="checkbox" id="speak" /> 🔊</label>
+        <button type="submit" id="send">Send</button>
+      </form>
+      <div class="row-actions"><button id="clear-history" class="link">Clear conversation</button></div>
+    </section>
+
+    <!-- Crawl -->
+    <section id="crawl" class="panel">
+      <form id="crawl-form" class="card">
+        <h2>Crawl &amp; summarize a website</h2>
+        <p class="muted">Runs as a durable Cloudflare Workflow: fetch → extract → summarize with Llama 3.3 → embed → store in a SQLite Durable Object.</p>
+        <div class="row">
+          <input id="crawl-url" type="url" placeholder="https://developers.cloudflare.com/workers/" required />
+          <input id="crawl-max" type="number" min="1" max="10" value="5" title="Max pages" />
+          <button type="submit">Start crawl</button>
+        </div>
+      </form>
+      <div id="crawl-list"></div>
+    </section>
+
+    <!-- Library -->
+    <section id="library" class="panel">
+      <div id="stats" class="stats"></div>
+      <form id="ingest-form" class="card">
+        <h2>Add text</h2>
+        <input id="ingest-title" placeholder="Title (optional)" />
+        <textarea id="ingest-text" rows="5" placeholder="Paste notes, docs, or any text…" required></textarea>
+        <button type="submit">Ingest</button>
+      </form>
+      <h3>Documents</h3>
+      <div id="doc-list"></div>
+      <h3>Learned memories</h3>
+      <p class="muted">Answers you rated 👍 are remembered and reused for similar questions.</p>
+      <div id="memory-list"></div>
+    </section>
+  </main>
+
+  <script src="/app.js" type="module"></script>
+</body>
+</html>
